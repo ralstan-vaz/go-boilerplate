@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package proto;
+
+service UserService {
+    rpc GetAll (UserGetRequest) returns (Users);
+    rpc GetOne (UserGetRequest) returns (User);
+    rpc GetWithRating (UserGetRequest) returns (User);
+    rpc Insert (User) returns (User);
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string stars = 3;
+  Favourite Favourite = 4;
+}
+
+message Favourite {
+  repeated string beers = 1;
+}
+
+message Users {
+ repeated User users = 1;
+}
+
+message UserGetRequest {
+  string Id = 1;
+}

@@ -1,0 +1,47 @@
+Skip to content
+Personal Open source Business Explore
+Sign upSign inPricingBlogSupport
+This repository
+Search
+ Watch 1,871  Star 43,016  Fork 17,358 github/gitignore
+ Code  Pull requests 169  Projects 0  Pulse  Graphs
+Branch: master Find file Copy pathgitignore/Go.gitignore
+14740a5  on 27 Sep
+@futabooo futabooo Add vendor folder to Go.gitignore
+3 contributors @futabooo @titanous @cskau
+RawBlameHistory
+31 lines (23 sloc)  379 Bytes
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj
+_test
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+*.exe
+*.test
+*.prof
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# external packages folder
+# vendor/
+
+
+#Mac files
+.DS_Store

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+. ./VERSION
+
+docker rm -f go-boilerplate
+docker run -it --name="go-boilerplate" -e GO_ENV="${GO_ENV}" go-boilerplate:${VERSION}

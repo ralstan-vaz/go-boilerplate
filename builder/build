@@ -1,0 +1,6 @@
+#!/bin/bash
+
+. ./VERSION
+
+docker build -f Dockerfile --tag "go-boilerplate:${VERSION}" --rm=true --force-rm=true --no-cache=true ../.
+
