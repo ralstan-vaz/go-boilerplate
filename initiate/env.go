@@ -2,8 +2,8 @@ package initiate
 
 import "os"
 
-// Env Initializes the enviroment variable
-// The default is set to develop
+// Env Gets the enviroment variable from GO_ENV.
+// By default the env will be development
 func Env() (string, error) {
 
 	env := os.Getenv("GO_ENV")

@@ -11,6 +11,7 @@ import (
 	userRepo "github.com/ralstan-vaz/go-boilerplate/pkg/user/repo"
 )
 
+// PackageDeps acts as a dependency container for multiple packages in this project
 type PackageDeps struct {
 	conf          *config.Config
 	dbInstances   *db.DBInstances
@@ -18,12 +19,14 @@ type PackageDeps struct {
 	httpRequester *httpPkg.Request
 }
 
+// NewPackageDeps create's a new instance of PackageDeps
 func NewPackageDeps(conf *config.Config, dbInstances *db.DBInstances, grpcCons *grpcPkg.GrpcConnections) *PackageDeps {
 	pkgDeps := &PackageDeps{conf: conf, dbInstances: dbInstances, grpcCons: grpcCons}
 	pkgDeps.httpRequester = httpPkg.NewRequest()
 	return pkgDeps
 }
 
+// NewUserPkg Creates an instance of UserPkg by fulfilling all its dependencies
 func (p *PackageDeps) NewUserPkg() *user.UserPkg {
 	userRepo := userRepo.NewUserRepo(p.conf, p.dbInstances)
 	userRating := rating.NewRating(p.conf, p.httpRequester)
