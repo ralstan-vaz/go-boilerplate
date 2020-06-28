@@ -5,7 +5,7 @@ package proto;
 service UserService {
     rpc GetAll (UserGetRequest) returns (Users);
     rpc GetOne (UserGetRequest) returns (User);
-    rpc GetWithRating (UserGetRequest) returns (User);
+    rpc GetWithInfo (UserGetRequest) returns (User);
     rpc Insert (User) returns (User);
 }
 

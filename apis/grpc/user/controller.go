@@ -90,8 +90,8 @@ func (u *UserService) Insert(ctx context.Context, req *pb.User) (res *pb.User, e
 	return res, nil
 }
 
-// GetWithRating gets a user from the database and also gets the rating from the rating service
-func (u *UserService) GetWithRating(ctx context.Context, req *pb.UserGetRequest) (res *pb.User, err error) {
+// GetWithInfo gets a user from the database along with rating and favourites
+func (u *UserService) GetWithInfo(ctx context.Context, req *pb.UserGetRequest) (res *pb.User, err error) {
 
 	userPkg := u.pkg.NewUserPkg()
 	if err != nil {
@@ -105,7 +105,7 @@ func (u *UserService) GetWithRating(ctx context.Context, req *pb.UserGetRequest)
 		panic(err)
 	}
 
-	users, err := userPkg.GetWithRating(userReq.ID)
+	users, err := userPkg.GetWithInfo(userReq.ID)
 	if err != nil {
 		return nil, err
 	}

@@ -66,8 +66,8 @@ func (pkg *UserPkg) Insert(u User) error {
 	return nil
 }
 
-// GetWithRating get a user from the store along with the ratings
-func (pkg *UserPkg) GetWithRating(id string) (*User, error) {
+// GetWithInfo get a user from the store along with the ratings and favourites
+func (pkg *UserPkg) GetWithInfo(id string) (*User, error) {
 	repoUser, err := pkg.user.GetOne(id)
 	if err != nil {
 		return nil, err

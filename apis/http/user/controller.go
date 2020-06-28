@@ -47,11 +47,11 @@ func (u *UserService) getOne(c *gin.Context) {
 	}
 }
 
-func (u *UserService) getWithRating(c *gin.Context) {
+func (u *UserService) getWithInfo(c *gin.Context) {
 	userId := c.Param("userId")
 
 	userPkg := u.pkg.NewUserPkg()
-	users, err := userPkg.GetWithRating(userId)
+	users, err := userPkg.GetWithInfo(userId)
 	if err != nil {
 		errorCode := http.StatusBadRequest
 		if err.Error() == "No such order found in database" {
