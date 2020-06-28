@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	userRepo "github.com/ralstan-vaz/go-boilerplate/pkg/user/repo"
+	user "github.com/ralstan-vaz/go-boilerplate/pkg/user"
 )
 
 // NewUserService Create a new instance of a UserService with the given dependencies.
@@ -47,11 +47,11 @@ func (u *UserService) getOne(c *gin.Context) {
 	}
 }
 
-func (u *UserService) getWithRating(c *gin.Context) {
+func (u *UserService) getWithInfo(c *gin.Context) {
 	userId := c.Param("userId")
 
 	userPkg := u.pkg.NewUserPkg()
-	users, err := userPkg.GetWithRating(userId)
+	users, err := userPkg.GetWithInfo(userId)
 	if err != nil {
 		errorCode := http.StatusBadRequest
 		if err.Error() == "No such order found in database" {
@@ -65,7 +65,7 @@ func (u *UserService) getWithRating(c *gin.Context) {
 
 func (u *UserService) insert(c *gin.Context) {
 
-	var user userRepo.User
+	var user user.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

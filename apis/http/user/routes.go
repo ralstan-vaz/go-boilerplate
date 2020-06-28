@@ -17,7 +17,7 @@ func bindRoutes(router *gin.Engine, pkg PackageInterface) {
 	{
 		userAPI.GET("/", service.getAll)
 		userAPI.GET("/:userId", service.getOne)
-		userAPI.GET("/:userId/rating", service.getWithRating)
+		userAPI.GET("/:userId/rating", service.getWithInfo)
 		userAPI.POST("/", service.insert)
 	}
 }

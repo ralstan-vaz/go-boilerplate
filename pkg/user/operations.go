@@ -22,35 +22,43 @@ func NewUserPkg(conf *config.Config, user operator, rating rating.Rater, favouri
 }
 
 // Get gets users from the store using the query passed
-func (pkg *UserPkg) Get(query string) ([]*repo.User, error) {
-	users, err := pkg.user.Get(query)
+func (pkg *UserPkg) Get(query string) ([]*User, error) {
+	repoUsers, err := pkg.user.Get(query)
 	if err != nil {
 		return nil, err
 	}
+	users := bindToUsers(repoUsers)
 	return users, nil
 }
 
 // GetOne gets a user from the store using the query
-func (pkg *UserPkg) GetOne(id string) (*repo.User, error) {
-	user, err := pkg.user.GetOne(id)
+func (pkg *UserPkg) GetOne(id string) (*User, error) {
+	repoUser, err := pkg.user.GetOne(id)
 	if err != nil {
 		return nil, err
 	}
+	user := bindToUser(repoUser)
 	return user, nil
 }
 
 // GetAll gets all the users
-func (pkg *UserPkg) GetAll() ([]*repo.User, error) {
-	users, err := pkg.user.GetAll()
+func (pkg *UserPkg) GetAll() ([]*User, error) {
+	repoUsers, err := pkg.user.GetAll()
 	if err != nil {
 		return nil, err
 	}
+	users := bindToUsers(repoUsers)
 	return users, nil
 }
 
 // Insert stores a user
-func (pkg *UserPkg) Insert(u repo.User) error {
-	err := pkg.user.Insert(u)
+func (pkg *UserPkg) Insert(u User) error {
+
+	user := repo.User{
+		ID:   u.ID,
+		Name: u.Name,
+	}
+	err := pkg.user.Insert(user)
 	if err != nil {
 		return err
 	}
@@ -58,8 +66,8 @@ func (pkg *UserPkg) Insert(u repo.User) error {
 	return nil
 }
 
-// GetWithRating get a user from the store along with the ratings
-func (pkg *UserPkg) GetWithRating(id string) (*User, error) {
+// GetWithInfo get a user from the store along with the ratings and favourites
+func (pkg *UserPkg) GetWithInfo(id string) (*User, error) {
 	repoUser, err := pkg.user.GetOne(id)
 	if err != nil {
 		return nil, err
@@ -84,4 +92,17 @@ func (pkg *UserPkg) GetWithRating(id string) (*User, error) {
 	}
 
 	return user, nil
+}
+
+func bindToUsers(u []*repo.User) []*User {
+	user := []*User{}
+	for i := 0; i < len(u); i++ {
+		user = append(user, bindToUser(u[i]))
+	}
+	return user
+}
+
+func bindToUser(u *repo.User) *User {
+	user := &User{ID: u.ID, Name: u.Name}
+	return user
 }
