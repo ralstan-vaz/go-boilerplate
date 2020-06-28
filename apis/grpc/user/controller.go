@@ -6,7 +6,6 @@ import (
 	"github.com/mitchellh/mapstructure"
 	pb "github.com/ralstan-vaz/go-boilerplate/apis/grpc/generated/user"
 	"github.com/ralstan-vaz/go-boilerplate/pkg/user"
-	userRepo "github.com/ralstan-vaz/go-boilerplate/pkg/user/repo"
 )
 
 // PackageInterface contains methods which return dependencies that are used by the services.
@@ -75,7 +74,7 @@ func (u *UserService) GetOne(ctx context.Context, req *pb.UserGetRequest) (res *
 func (u *UserService) Insert(ctx context.Context, req *pb.User) (res *pb.User, err error) {
 
 	userPkg := u.pkg.NewUserPkg()
-	userReq := userRepo.User{}
+	userReq := user.User{}
 	// Need to decode to user.User since User is an embedded struct
 	err = mapstructure.Decode(req, &userReq)
 	if err != nil {

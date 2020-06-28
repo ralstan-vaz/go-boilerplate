@@ -19,7 +19,7 @@ func NewUserRepo(conf *config.Config, dbInstances dbInstancer) *UserRepo {
 // Get Gets users using a query
 func (ur *UserRepo) Get(query string) ([]*User, error) {
 	u := ur.db.Get(query)
-	users := bindToUser(u)
+	users := bindToUsers(u)
 	return users, nil
 }
 
@@ -33,7 +33,7 @@ func (ur *UserRepo) GetOne(id string) (*User, error) {
 // GetAll Gets all the users
 func (ur *UserRepo) GetAll() ([]*User, error) {
 	u := ur.db.GetAll()
-	users := bindToUser(u)
+	users := bindToUsers(u)
 	return users, nil
 }
 
@@ -43,7 +43,7 @@ func (ur *UserRepo) Insert(u User) error {
 	return nil
 }
 
-func bindToUser(u []db.MimicUser) []*User {
+func bindToUsers(u []db.MimicUser) []*User {
 	user := []*User{}
 	for i := 0; i < len(u); i++ {
 		user = append(user, &User{ID: u[i].ID, Name: u[i].Name})
