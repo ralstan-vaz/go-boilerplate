@@ -4,26 +4,30 @@ import (
 	"github.com/ralstan-vaz/go-boilerplate/config"
 )
 
+// DBInstances contains all the DB instances this app uses
 type DBInstances struct {
 	conf *config.Config
 	myDB *MyDB
 }
 
-func NewDBInstances(conf *config.Config) *DBInstances {
+// newDBInstances creates an instance of DBInstances
+// It does not initialize the connections.
+func newDBInstances(conf *config.Config) *DBInstances {
 	return &DBInstances{conf: conf}
 }
 
+// NewInitializedInstances creates an instance of initialized DBInstances
 func NewInitializedInstances(conf *config.Config) (*DBInstances, error) {
-	dbInstance := NewDBInstances(conf)
-	err := dbInstance.Initialize()
+	dbInstance := newDBInstances(conf)
+	err := dbInstance.initialize()
 	if err != nil {
 		return nil, err
 	}
 	return dbInstance, nil
 }
 
-// Initialize ..
-func (i *DBInstances) Initialize() error {
+// initialize ..
+func (i *DBInstances) initialize() error {
 	err := i.myDBInit()
 	if err != nil {
 		return err
@@ -37,6 +41,7 @@ func (i *DBInstances) myDBInit() error {
 	return nil
 }
 
+// GetMyDB return the instance for MYDb
 func (i *DBInstances) GetMyDB() Dber {
 	return i.myDB
 }
