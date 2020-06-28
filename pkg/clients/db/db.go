@@ -1,8 +1,9 @@
 package db
 
+// Dber contains methods to operate on a DB
 type Dber interface {
-	Getter
-	Inserter
+	getter
+	inserter
 }
 
 // MimicUser Just to minic user collection
@@ -11,12 +12,12 @@ type MimicUser struct {
 	Name string `json:"name,omitempty"`
 }
 
-type Getter interface {
+type getter interface {
 	GetOne(id string) MimicUser
 	Get(query string) []MimicUser
 	GetAll() []MimicUser
 }
 
-type Inserter interface {
+type inserter interface {
 	Insert(interface{}) error
 }

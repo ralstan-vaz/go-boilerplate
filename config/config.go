@@ -23,7 +23,7 @@ func NewConfig(env string) (*Config, error) {
 	return configModel, nil
 }
 
-// Get Retrives the config model with out loading it from the disk
+// Get Retrives the config model without loading it from the disk
 func Get() *Config {
 	return configModel
 }

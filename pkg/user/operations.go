@@ -7,20 +7,21 @@ import (
 	"github.com/ralstan-vaz/go-boilerplate/pkg/user/repo"
 )
 
-// UserPkg ..
+// UserPkg provides a way to perform operations on a user
 type UserPkg struct {
 	config    *config.Config
-	user      Operator
+	user      operator
 	rating    rating.Rater
 	favourite favourite.FavouriteInterface
 }
 
-// NewUserPkg ...
-func NewUserPkg(conf *config.Config, user Operator, rating rating.Rater, favourite favourite.FavouriteInterface) *UserPkg {
+// NewUserPkg creates an instance of UserPkg using the dependencies passed
+// The dependency params can be moved to an interface to reduce to make it clean
+func NewUserPkg(conf *config.Config, user operator, rating rating.Rater, favourite favourite.FavouriteInterface) *UserPkg {
 	return &UserPkg{config: conf, user: user, rating: rating, favourite: favourite}
 }
 
-// Get ...
+// Get gets users from the store using the query passed
 func (pkg *UserPkg) Get(query string) ([]*repo.User, error) {
 	users, err := pkg.user.Get(query)
 	if err != nil {
@@ -29,7 +30,7 @@ func (pkg *UserPkg) Get(query string) ([]*repo.User, error) {
 	return users, nil
 }
 
-// GetOne ...
+// GetOne gets a user from the store using the query
 func (pkg *UserPkg) GetOne(id string) (*repo.User, error) {
 	user, err := pkg.user.GetOne(id)
 	if err != nil {
@@ -38,7 +39,7 @@ func (pkg *UserPkg) GetOne(id string) (*repo.User, error) {
 	return user, nil
 }
 
-// GetAll ...
+// GetAll gets all the users
 func (pkg *UserPkg) GetAll() ([]*repo.User, error) {
 	users, err := pkg.user.GetAll()
 	if err != nil {
@@ -47,7 +48,7 @@ func (pkg *UserPkg) GetAll() ([]*repo.User, error) {
 	return users, nil
 }
 
-// Insert ...
+// Insert stores a user
 func (pkg *UserPkg) Insert(u repo.User) error {
 	err := pkg.user.Insert(u)
 	if err != nil {
@@ -57,7 +58,7 @@ func (pkg *UserPkg) Insert(u repo.User) error {
 	return nil
 }
 
-// GetWithRating ...
+// GetWithRating get a user from the store along with the ratings
 func (pkg *UserPkg) GetWithRating(id string) (*User, error) {
 	repoUser, err := pkg.user.GetOne(id)
 	if err != nil {

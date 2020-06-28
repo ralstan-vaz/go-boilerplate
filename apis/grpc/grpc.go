@@ -10,11 +10,13 @@ import (
 	"google.golang.org/grpc"
 )
 
+// PackageInterface contains methods which return dependencies that are used by the services.
+// This aids in making it possible to send dependencies to the packages.
 type PackageInterface interface {
 	NewUserPkg() *userPkg.UserPkg
 }
 
-// StartServer ...
+// StartServer starts the grpc server using the dependencies passed to it
 func StartServer(conf *config.Config, pkg PackageInterface, wg *sync.WaitGroup) error {
 
 	address := conf.Server.GRPC.Address

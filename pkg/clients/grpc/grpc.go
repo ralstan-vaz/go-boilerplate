@@ -5,17 +5,21 @@ import (
 	"google.golang.org/grpc"
 )
 
+// GrpcConnections contains all the GRPC connections this app uses
 type GrpcConnections struct {
 	favouriteConnection *grpc.ClientConn
 	conf                *config.Config
 }
 
-func NewGrpcConnections(conf *config.Config) *GrpcConnections {
+// newGrpcConnections creates an instance of GrpcConnections
+// It does not initialize the connections.
+func newGrpcConnections(conf *config.Config) *GrpcConnections {
 	return &GrpcConnections{conf: conf}
 }
 
+// NewInitializeConnections creates an instance of initialized GrpcConnections
 func NewInitializeConnections(conf *config.Config) (*GrpcConnections, error) {
-	grpcCons := NewGrpcConnections(conf)
+	grpcCons := newGrpcConnections(conf)
 	err := grpcCons.initialize()
 	if err != nil {
 		return nil, err
@@ -42,6 +46,7 @@ func (g *GrpcConnections) favouriteInit() error {
 	return nil
 }
 
+// GetFavourite return the grpc connection for the favourite service
 func (g *GrpcConnections) GetFavourite() *grpc.ClientConn {
 	return g.favouriteConnection
 }

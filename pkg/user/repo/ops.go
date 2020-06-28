@@ -12,7 +12,7 @@ type UserRepo struct {
 }
 
 // NewUserRepo Create's an instance of a User Repository
-func NewUserRepo(conf *config.Config, dbInstances DBInstancer) *UserRepo {
+func NewUserRepo(conf *config.Config, dbInstances dbInstancer) *UserRepo {
 	return &UserRepo{config: conf, db: dbInstances.GetMyDB()}
 }
 
