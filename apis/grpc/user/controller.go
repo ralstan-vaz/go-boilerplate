@@ -9,19 +9,22 @@ import (
 	userRepo "github.com/ralstan-vaz/go-boilerplate/pkg/user/repo"
 )
 
+// PackageInterface contains methods which return dependencies that are used by the services.
 type PackageInterface interface {
 	NewUserPkg() *user.UserPkg
 }
 
+// NewUserService Create a new instance of a UserService with the given dependencies.
 func NewUserService(pkg PackageInterface) *UserService {
-
 	return &UserService{pkg: pkg}
 }
 
+// UserService contains the methods required to perfom operation's on users
 type UserService struct {
 	pkg PackageInterface
 }
 
+// GetAll gets all users
 func (u *UserService) GetAll(ctx context.Context, req *pb.UserGetRequest) (res *pb.Users, err error) {
 
 	userPkg := u.pkg.NewUserPkg()
@@ -39,6 +42,7 @@ func (u *UserService) GetAll(ctx context.Context, req *pb.UserGetRequest) (res *
 	return res, nil
 }
 
+// GetOne gets one users
 func (u *UserService) GetOne(ctx context.Context, req *pb.UserGetRequest) (res *pb.User, err error) {
 
 	userPkg := u.pkg.NewUserPkg()
@@ -67,6 +71,7 @@ func (u *UserService) GetOne(ctx context.Context, req *pb.UserGetRequest) (res *
 	return res, nil
 }
 
+// Insert stores a user in the datastore
 func (u *UserService) Insert(ctx context.Context, req *pb.User) (res *pb.User, err error) {
 
 	userPkg := u.pkg.NewUserPkg()
@@ -86,6 +91,7 @@ func (u *UserService) Insert(ctx context.Context, req *pb.User) (res *pb.User, e
 	return res, nil
 }
 
+// GetWithRating gets a user from the database and also gets the rating from the rating service
 func (u *UserService) GetWithRating(ctx context.Context, req *pb.UserGetRequest) (res *pb.User, err error) {
 
 	userPkg := u.pkg.NewUserPkg()
