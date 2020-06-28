@@ -2,7 +2,7 @@ package user
 
 import "github.com/ralstan-vaz/go-boilerplate/pkg/user/repo"
 
-// User ..
+// User contains all the properties of a user
 type User struct {
 	ID   string `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
@@ -19,20 +19,21 @@ type Favourite struct {
 
 // Create interfaces only where they are being used
 
-// Getter ..
-type Getter interface {
+// getter ..
+type getter interface {
 	GetOne(id string) (*repo.User, error)
 	Get(query string) ([]*repo.User, error)
 	GetAll() ([]*repo.User, error)
 }
 
-// Modifier ..
-type Modifier interface {
+// modifier ..
+type modifier interface {
 	Insert(repo.User) error
 }
 
-// Operator ..
-type Operator interface {
-	Modifier
-	Getter
+// operator is implemented by any value that contains getter and modifier interface methods
+// Gives a way to mock the user repo
+type operator interface {
+	modifier
+	getter
 }

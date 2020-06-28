@@ -5,14 +5,27 @@ import (
 	"io/ioutil"
 
 	"net/http"
+
+	"github.com/ralstan-vaz/go-boilerplate/config"
 )
 
-// GetRequest ..
+// Rating contains methods to the perform operations on ratings
+type Rating struct {
+	config        *config.Config
+	httpRequester httpRequester
+}
+
+// NewRating creates a new instance of Rating
+func NewRating(conf *config.Config, httpRequester httpRequester) *Rating {
+	return &Rating{config: conf, httpRequester: httpRequester}
+}
+
+// GetRequest request for getting a rating
 type GetRequest struct {
 	ID string
 }
 
-// GetResponse ..
+// GetResponse response after getting a rating
 type GetResponse struct {
 	ID    string `json:"id,omitempty"`
 	Stars string `json:"stars,omitempty"`

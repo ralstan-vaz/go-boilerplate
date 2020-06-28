@@ -7,11 +7,12 @@ import (
 	userRepo "github.com/ralstan-vaz/go-boilerplate/pkg/user/repo"
 )
 
+// NewUserService Create a new instance of a UserService with the given dependencies.
 func NewUserService(pkg PackageInterface) *UserService {
-
 	return &UserService{pkg: pkg}
 }
 
+// UserService contains the methods required to perfom operation's on users
 type UserService struct {
 	pkg PackageInterface
 }

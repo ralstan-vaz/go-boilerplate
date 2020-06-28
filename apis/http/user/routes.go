@@ -6,11 +6,12 @@ import (
 	"github.com/ralstan-vaz/go-boilerplate/pkg/user"
 )
 
+// NewUserRoute Creates and initializes user routes
 func NewUserRoute(conf *config.Config, router *gin.Engine, pkg PackageInterface) {
-	BindRoutes(router, pkg)
+	bindRoutes(router, pkg)
 }
 
-func BindRoutes(router *gin.Engine, pkg PackageInterface) {
+func bindRoutes(router *gin.Engine, pkg PackageInterface) {
 	service := NewUserService(pkg)
 	userAPI := router.Group("/users")
 	{
@@ -21,6 +22,7 @@ func BindRoutes(router *gin.Engine, pkg PackageInterface) {
 	}
 }
 
+// PackageInterface contains methods which return dependencies that are used by the controller.
 type PackageInterface interface {
 	NewUserPkg() *user.UserPkg
 }

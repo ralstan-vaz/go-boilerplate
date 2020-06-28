@@ -10,7 +10,8 @@ import (
 	"github.com/ralstan-vaz/go-boilerplate/pkg/user"
 )
 
-// StartServer It will initialize the routes and the server
+// StartServer starts the http server using the dependencies passed to it.
+// It also initializes the routes
 func StartServer(conf *config.Config, pkg PackageInterface, wg *sync.WaitGroup) error {
 	defer wg.Done()
 
@@ -29,6 +30,8 @@ func StartServer(conf *config.Config, pkg PackageInterface, wg *sync.WaitGroup) 
 	return nil
 }
 
+// PackageInterface contains methods which return dependencies that are used by the services.
+// This aids in making it possible to send dependencies to the packages.
 type PackageInterface interface {
 	NewUserPkg() *user.UserPkg
 }

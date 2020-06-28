@@ -11,7 +11,8 @@ import (
 	grpcPkg "github.com/ralstan-vaz/go-boilerplate/pkg/clients/grpc"
 )
 
-// Initialize the application
+// Initialize will initialize all the dependencies and the servers.
+// Dependencies include config, external connections(grpc, http)
 func Initialize() error {
 	env, err := Env()
 	if err != nil {
@@ -43,7 +44,10 @@ func Initialize() error {
 	return nil
 }
 
-// InitServers the HTTP and the gRPC servers
+// InitServers will pass the dependencies to the servers.
+// The servers will start in an individual goroutine
+// Wait group is used to wait for all the goroutines launched here to finish.
+// In in ideal scenerio the routines would run indefinitely
 func InitServers(conf *config.Config, dbInstances *db.DBInstances, grpcCons *grpcPkg.GrpcConnections) {
 
 	// Deps
