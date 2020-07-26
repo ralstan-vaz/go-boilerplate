@@ -8,7 +8,7 @@ import (
 	"github.com/ralstan-vaz/go-errors/http"
 )
 
-// HandleError formats, logs and sets a http response of the error
+// HandleError formats, logs and sets a http response for the error
 func HandleError(c *gin.Context, errObj error) {
 	err := errors.Get(errObj)
 

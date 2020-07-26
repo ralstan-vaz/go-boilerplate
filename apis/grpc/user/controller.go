@@ -5,6 +5,7 @@ import (
 
 	"github.com/mitchellh/mapstructure"
 	pb "github.com/ralstan-vaz/go-boilerplate/apis/grpc/generated/user"
+	"github.com/ralstan-vaz/go-boilerplate/apis/grpc/utils"
 	"github.com/ralstan-vaz/go-boilerplate/pkg/user"
 )
 
@@ -29,13 +30,13 @@ func (u *UserService) GetAll(ctx context.Context, req *pb.UserGetRequest) (res *
 	userPkg := u.pkg.NewUserPkg()
 	users, err := userPkg.GetAll()
 	if err != nil {
-		return nil, err
+		return nil, utils.HandleError(err)
 	}
 
 	res = &pb.Users{}
 	err = mapstructure.Decode(users, &res.Users)
 	if err != nil {
-		panic(err)
+		return nil, utils.HandleError(err)
 	}
 
 	return res, nil
@@ -45,26 +46,23 @@ func (u *UserService) GetAll(ctx context.Context, req *pb.UserGetRequest) (res *
 func (u *UserService) GetOne(ctx context.Context, req *pb.UserGetRequest) (res *pb.User, err error) {
 
 	userPkg := u.pkg.NewUserPkg()
-	if err != nil {
-		return nil, err
-	}
 
 	userReq := user.User{}
 	// Need to decode to user.User since User is an embedded struct
 	err = mapstructure.Decode(req, &userReq)
 	if err != nil {
-		panic(err)
+		return nil, utils.HandleError(err)
 	}
 
 	users, err := userPkg.GetOne(userReq.ID)
 	if err != nil {
-		return nil, err
+		return nil, utils.HandleError(err)
 	}
 
 	res = &pb.User{}
 	err = mapstructure.Decode(users, &res)
 	if err != nil {
-		panic(err)
+		return nil, utils.HandleError(err)
 	}
 
 	return res, nil
@@ -78,12 +76,12 @@ func (u *UserService) Insert(ctx context.Context, req *pb.User) (res *pb.User, e
 	// Need to decode to user.User since User is an embedded struct
 	err = mapstructure.Decode(req, &userReq)
 	if err != nil {
-		panic(err)
+		return nil, utils.HandleError(err)
 	}
 
 	err = userPkg.Insert(userReq)
 	if err != nil {
-		return nil, err
+		return nil, utils.HandleError(err)
 	}
 	res = nil
 
@@ -94,26 +92,23 @@ func (u *UserService) Insert(ctx context.Context, req *pb.User) (res *pb.User, e
 func (u *UserService) GetWithInfo(ctx context.Context, req *pb.UserGetRequest) (res *pb.User, err error) {
 
 	userPkg := u.pkg.NewUserPkg()
-	if err != nil {
-		return nil, err
-	}
 
 	userReq := user.User{}
 	// Need to decode to user.User since User is an embedded struct
 	err = mapstructure.Decode(req, &userReq)
 	if err != nil {
-		panic(err)
+		return nil, utils.HandleError(err)
 	}
 
 	users, err := userPkg.GetWithInfo(userReq.ID)
 	if err != nil {
-		return nil, err
+		return nil, utils.HandleError(err)
 	}
 
 	res = &pb.User{}
 	err = mapstructure.Decode(users, &res)
 	if err != nil {
-		panic(err)
+		return nil, utils.HandleError(err)
 	}
 
 	return res, nil
