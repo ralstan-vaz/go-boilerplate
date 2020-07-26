@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ralstan-vaz/go-boilerplate/apis/http/utils"
 	user "github.com/ralstan-vaz/go-boilerplate/pkg/user"
 )
 
@@ -21,61 +22,52 @@ func (u *UserService) getAll(c *gin.Context) {
 	userPkg := u.pkg.NewUserPkg()
 	users, err := userPkg.GetAll()
 	if err != nil {
-		errorCode := http.StatusBadRequest
-		if err.Error() == "No such order found in database" {
-			errorCode = http.StatusNotFound
-		}
-		c.JSON(errorCode, gin.H{"error": err.Error()})
-	} else {
-		c.JSON(http.StatusOK, users)
+		utils.HandleError(c, err)
 	}
+
+	c.JSON(http.StatusOK, users)
 }
 
 func (u *UserService) getOne(c *gin.Context) {
-	userId := c.Param("userId")
+	userID := c.Param("userID")
 
 	userPkg := u.pkg.NewUserPkg()
-	users, err := userPkg.GetOne(userId)
+	users, err := userPkg.GetOne(userID)
 	if err != nil {
-		errorCode := http.StatusBadRequest
-		if err.Error() == "No such order found in database" {
-			errorCode = http.StatusNotFound
-		}
-		c.JSON(errorCode, gin.H{"error": err.Error()})
-	} else {
-		c.JSON(http.StatusOK, users)
+		utils.HandleError(c, err)
+		return
 	}
+
+	c.JSON(http.StatusOK, users)
 }
 
 func (u *UserService) getWithInfo(c *gin.Context) {
-	userId := c.Param("userId")
+	userID := c.Param("userID")
 
 	userPkg := u.pkg.NewUserPkg()
-	users, err := userPkg.GetWithInfo(userId)
+	users, err := userPkg.GetWithInfo(userID)
 	if err != nil {
-		errorCode := http.StatusBadRequest
-		if err.Error() == "No such order found in database" {
-			errorCode = http.StatusNotFound
-		}
-		c.JSON(errorCode, gin.H{"error": err.Error()})
-	} else {
-		c.JSON(http.StatusOK, users)
+		utils.HandleError(c, err)
+		return
 	}
+
+	c.JSON(http.StatusOK, users)
 }
 
 func (u *UserService) insert(c *gin.Context) {
 
 	var user user.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		utils.HandleError(c, err)
 		return
 	}
+
 	userPkg := u.pkg.NewUserPkg()
 	err := userPkg.Insert(user)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		utils.HandleError(c, err)
 		return
 	}
+
 	c.JSON(http.StatusOK, nil)
-	return
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/ralstan-vaz/go-boilerplate/pkg/user/favourite"
 	"github.com/ralstan-vaz/go-boilerplate/pkg/user/rating"
 	"github.com/ralstan-vaz/go-boilerplate/pkg/user/repo"
+	"github.com/ralstan-vaz/go-errors"
 )
 
 // UserPkg provides a way to perform operations on a user
@@ -70,17 +71,17 @@ func (pkg *UserPkg) Insert(u User) error {
 func (pkg *UserPkg) GetWithInfo(id string) (*User, error) {
 	repoUser, err := pkg.user.GetOne(id)
 	if err != nil {
-		return nil, err
+		return nil, errors.NewInternalError(err)
 	}
 
 	rating, err := pkg.rating.Get(rating.GetRequest{ID: id})
 	if err != nil {
-		return nil, err
+		return nil, errors.NewInternalError(err)
 	}
 
 	favourite, err := pkg.favourite.Get(favourite.GetRequest{ID: id})
 	if err != nil {
-		return nil, err
+		return nil, errors.NewInternalError(err)
 	}
 
 	fav := Favourite{Beers: favourite.Beers}
