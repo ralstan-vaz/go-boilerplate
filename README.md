@@ -12,13 +12,13 @@ The rest will be added in time.
 - [x] Request interceptors
 - [x] Vendoring
 - [x] Commenting
+- [x] Containerizing
 - [ ] Logging
 - [ ] Error
 - [ ] Tracing
 - [ ] Documenting
 - [ ] Unit Testing
 - [ ] Integration testing
-
 
 
 ## Directory structure

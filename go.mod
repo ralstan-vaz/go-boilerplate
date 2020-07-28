@@ -4,10 +4,11 @@ go 1.14
 
 require (
 	github.com/gin-gonic/gin v1.6.3
-	github.com/golang/protobuf v1.3.3
-	github.com/mitchellh/mapstructure v1.3.2
-	golang.org/x/net v0.0.0-20200513185701-a91f0712d120
-	google.golang.org/genproto v0.0.0-20200513103714-09dca8ec2884 // indirect
-	google.golang.org/grpc v1.29.1
-	gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c
+	github.com/golang/protobuf v1.4.2
+	github.com/mitchellh/mapstructure v1.3.3
+	github.com/ralstan-vaz/go-errors v0.0.0-20200726095602-aa5dd87a7402
+	golang.org/x/net v0.0.0-20200707034311-ab3426394381
+	google.golang.org/genproto v0.0.0-20200726014623-da3ae01ef02d // indirect
+	google.golang.org/grpc v1.30.0
+	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
 )
