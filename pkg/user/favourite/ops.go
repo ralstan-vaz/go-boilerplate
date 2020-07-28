@@ -36,7 +36,7 @@ func (f *Favourite) Get(req GetRequest) (*GetResponse, error) {
 	cli := user.NewUserServiceClient(favGrpcCon)
 	resp, err := cli.GetAll(context.Background(), &user.UserGetRequest{})
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	fmt.Println("Response", resp)
