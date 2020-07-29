@@ -48,7 +48,6 @@ func (u *UserService) GetOne(ctx context.Context, req *pb.UserGetRequest) (res *
 	userPkg := u.pkg.NewUserPkg()
 
 	userReq := user.User{}
-	// Need to decode to user.User since User is an embedded struct
 	err = mapstructure.Decode(req, &userReq)
 	if err != nil {
 		return nil, utils.HandleError(err)
@@ -73,7 +72,6 @@ func (u *UserService) Insert(ctx context.Context, req *pb.User) (res *pb.User, e
 
 	userPkg := u.pkg.NewUserPkg()
 	userReq := user.User{}
-	// Need to decode to user.User since User is an embedded struct
 	err = mapstructure.Decode(req, &userReq)
 	if err != nil {
 		return nil, utils.HandleError(err)
@@ -94,7 +92,6 @@ func (u *UserService) GetWithInfo(ctx context.Context, req *pb.UserGetRequest) (
 	userPkg := u.pkg.NewUserPkg()
 
 	userReq := user.User{}
-	// Need to decode to user.User since User is an embedded struct
 	err = mapstructure.Decode(req, &userReq)
 	if err != nil {
 		return nil, utils.HandleError(err)

@@ -27,7 +27,6 @@ func StartServer(conf *config.Config, pkg PackageInterface, wg *sync.WaitGroup) 
 	}
 
 	var server *grpc.Server
-	// Add required opts
 	opts := []grpc.ServerOption{}
 	server = grpc.NewServer(opts...)
 

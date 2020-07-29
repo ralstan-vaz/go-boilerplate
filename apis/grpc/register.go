@@ -10,6 +10,5 @@ import (
 func registerService(server *grpc.Server, pkg PackageInterface) {
 
 	userService := user.NewUserService(pkg)
-	// Bind the RPC services to the grpc server
 	pb.RegisterUserServiceServer(server, userService)
 }
