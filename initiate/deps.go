@@ -19,7 +19,7 @@ type PackageDeps struct {
 	httpRequester *httpPkg.Request
 }
 
-// NewPackageDeps create's a new instance of PackageDeps
+// NewPackageDeps creates a new instance of PackageDeps
 func NewPackageDeps(conf *config.Config, dbInstances *db.DBInstances, grpcCons *grpcPkg.GrpcConnections) *PackageDeps {
 	pkgDeps := &PackageDeps{conf: conf, dbInstances: dbInstances, grpcCons: grpcCons}
 	pkgDeps.httpRequester = httpPkg.NewRequest()

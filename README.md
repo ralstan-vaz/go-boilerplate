@@ -14,7 +14,7 @@ The rest will be added in time.
 - [x] Commenting
 - [x] Containerizing
 - [ ] Logging
-- [ ] Error
+- [x] Error
 - [ ] Tracing
 - [ ] Documenting
 - [ ] Unit Testing
@@ -23,8 +23,6 @@ The rest will be added in time.
 
 ## Directory structure
 
-### apis
-It contains controllers for the pkgs that need to be exposed. Each protocol can have different implementations. Each protocol's implementation can reside in its respective directories.
 
 ### config
 It contains the configuration model. This model will be used in the project.
@@ -35,7 +33,10 @@ The yml config bind to the model which then passed through the project.
 It would contain code to start up the project. All dependencies would also be created here and then passed to the respective packages.
 
 ### pkg
-It would mainly contain library code. It could contain multiple packages some of which may depend on other packages. Eventually, some pkg will be used by /apis to get exposed.
+It would mainly contain library code. It could contain multiple packages some of which may depend on other packages. Eventually, some pkg will be used by pkg/apis to get exposed.
+
+### pkg/apis
+It contains controllers for the pkgs that need to be exposed. Each protocol can have different implementations. Each protocol's implementation can reside in its respective directories.
 
 ### builder 
 It contains the scripts need to build the code. Containerization scripts would reside here.
@@ -47,5 +48,5 @@ All dependencies would be here.
 The flow of the program would look like this.
 
 ```js
- main.go --> initiate --> config --> apis --> pkg
+ main.go --> initiate --> config --> pkg/apis --> pkg(user etc)
 ```

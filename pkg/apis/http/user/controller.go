@@ -3,19 +3,21 @@ package user
 import (
 	"net/http"
 
+	"github.com/ralstan-vaz/go-boilerplate/pkg/apis"
+	utils "github.com/ralstan-vaz/go-boilerplate/pkg/apis/http/utils"
+
 	"github.com/gin-gonic/gin"
-	"github.com/ralstan-vaz/go-boilerplate/apis/http/utils"
 	user "github.com/ralstan-vaz/go-boilerplate/pkg/user"
 )
 
 // NewUserService Create a new instance of a UserService with the given dependencies.
-func NewUserService(pkg PackageInterface) *UserService {
+func NewUserService(pkg apis.PackageInterface) *UserService {
 	return &UserService{pkg: pkg}
 }
 
-// UserService contains the methods required to perfom operation's on users
+// UserService contains the methods required to perform operation's on users
 type UserService struct {
-	pkg PackageInterface
+	pkg apis.PackageInterface
 }
 
 func (u *UserService) getAll(c *gin.Context) {
@@ -69,5 +71,5 @@ func (u *UserService) insert(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, nil)
+	c.JSON(http.StatusOK, user)
 }

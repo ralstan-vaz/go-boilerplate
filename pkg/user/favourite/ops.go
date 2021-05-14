@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	user "github.com/ralstan-vaz/go-boilerplate/apis/grpc/generated/user"
 	"github.com/ralstan-vaz/go-boilerplate/config"
+	user "github.com/ralstan-vaz/go-boilerplate/pkg/apis/grpc/generated/user"
 )
 
 // Favourite contains methods to peform operations on users favourites
