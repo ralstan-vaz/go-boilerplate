@@ -2,11 +2,10 @@ package initiate
 
 import (
 	"fmt"
-	"sync"
 
-	"github.com/ralstan-vaz/go-boilerplate/apis/grpc"
-	"github.com/ralstan-vaz/go-boilerplate/apis/http"
 	"github.com/ralstan-vaz/go-boilerplate/config"
+	"github.com/ralstan-vaz/go-boilerplate/pkg/apis/grpc"
+	"github.com/ralstan-vaz/go-boilerplate/pkg/apis/http"
 	"github.com/ralstan-vaz/go-boilerplate/pkg/clients/db"
 	grpcPkg "github.com/ralstan-vaz/go-boilerplate/pkg/clients/grpc"
 )
@@ -21,43 +20,61 @@ func Initialize() error {
 
 	fmt.Println("Enviroment: ", env)
 
-	// Gets config
 	conf, err := config.NewConfig(env)
 	if err != nil {
 		return err
 	}
 
-	// Initializes the DB connections
 	dbInstances, err := db.NewInitializedInstances(conf)
 	if err != nil {
 		return err
 	}
 
-	// Initializes the GRPC connections
 	grpcCons, err := grpcPkg.NewInitializeConnections(conf)
 	if err != nil {
 		return err
 	}
 
-	InitServers(conf, dbInstances, grpcCons)
+	err = StartServers(conf, dbInstances, grpcCons)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
 
-// InitServers will pass the dependencies to the servers.
+// StartServers will pass the dependencies to the servers.
 // The servers will start in an individual goroutine
 // Wait group is used to wait for all the goroutines launched here to finish.
-// In in ideal scenerio the routines would run indefinitely
-func InitServers(conf *config.Config, dbInstances *db.DBInstances, grpcCons *grpcPkg.GrpcConnections) {
+// In in ideal scenario the routines would run indefinitely
+func StartServers(conf *config.Config, dbInstances *db.DBInstances, grpcCons *grpcPkg.GrpcConnections) error {
 
-	// Deps
 	pkg := NewPackageDeps(conf, dbInstances, grpcCons)
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go http.StartServer(conf, pkg, &wg)
 
-	wg.Add(1)
-	go grpc.StartServer(conf, pkg, &wg)
+	var errCh = make(chan error)
 
-	wg.Wait()
+	go startHTTP(conf, pkg, errCh)
+	go startGRPC(conf, pkg, errCh)
+
+	// Wait until an error is received through the channel
+	// We want the program to exit if anyone of the servers return an error
+	select {
+	case err := <-errCh:
+		close(errCh)
+		return err
+	}
+}
+
+func startHTTP(conf *config.Config, pkg *PackageDeps, errCh chan error) {
+	err := http.Start(conf, pkg)
+	if err != nil {
+		errCh <- err
+	}
+}
+
+func startGRPC(conf *config.Config, pkg *PackageDeps, errCh chan error) {
+	err := grpc.Start(conf, pkg)
+	if err != nil {
+		errCh <- err
+	}
 }
