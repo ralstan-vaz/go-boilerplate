@@ -61,6 +61,12 @@ func (e *Error) Wrap(err error) *Error {
 	return e
 }
 
+// SetCode sets an error code for the current error
+func (e *Error) SetCode(code string) *Error {
+	e.Code = code
+	return e
+}
+
 type getter interface {
 	Get() *Error
 }
